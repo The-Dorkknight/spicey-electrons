@@ -1,0 +1,98 @@
+# Required Notice: Copyright Matthew Armstrong (https://github.com/The-Dorkknight)
+# Licensed under the PolyForm Noncommercial License 1.0.0. No warranty.
+"""Parts catalogue (electrical side) and the SPICE models behind them.
+
+The drawing side of each part (symbol, pin positions) lives in web/app.js.
+Pin ORDER here must match the pin order there.
+
+Models are the widely published manufacturer / textbook SPICE models. They are
+characterised at 27 C (TNOM); ngspice shifts them to the chosen temperature.
+"""
+import math
+
+# type: (pin names, default props)
+CATALOGUE = {
+    "resistor":  (["end 1", "end 2"], {"value": "1k"}),
+    "capacitor": (["end 1", "end 2"], {"value": "100u"}),
+    "inductor":  (["end 1", "end 2"], {"value": "10m"}),
+    "diode":     (["anode (+)", "cathode (-, the band)"], {"model": "1N4148"}),
+    "led":       (["anode (+, long leg)", "cathode (-, flat side)"], {"color": "red"}),
+    "battery":   (["+", "-"], {"voltage": "9"}),
+    "sine":      (["+", "-"], {"amplitude": "5", "frequency": "1k", "offset": "0"}),
+    "square":    (["+", "-"], {"high": "5", "low": "0", "frequency": "1k", "duty": "50"}),
+    "ground":    (["ground"], {}),
+    "switch":    (["end 1", "end 2"], {"closed": True}),
+    "pot":       (["end 1", "end 2", "wiper"], {"value": "10k", "position": "50"}),
+    "npn":       (["base (B)", "collector (C)", "emitter (E)"], {"model": "2N3904"}),
+    "pnp":       (["base (B)", "collector (C)", "emitter (E)"], {"model": "2N3906"}),
+    "nmos":      (["gate (G)", "drain (D)", "source (S)"], {"model": "2N7000", "cgs": "16p", "cgd": "4p"}),
+    "zener":     (["anode (+)", "cathode (-, the band)"], {"vz": "5.1"}),
+    "lamp":      (["end 1", "end 2"], {"volts": "6", "amps": "0.1"}),
+    "speaker":   (["end 1", "end 2"], {"ohms": "8"}),
+    "relay":     (["coil +", "coil -", "contact 1", "contact 2"], {"coil": "5"}),
+    "motor":     (["+", "-"], {"volts": "6"}),
+    "ldr":       (["end 1", "end 2"], {"light": "50"}),
+    "thermistor": (["end 1", "end 2"], {"r25": "10k", "warm": "0"}),
+    "opamp":     (["- input", "+ input", "output"], {"rails": "12"}),
+    "555":       (["+V (pin 8)", "ground (pin 1)", "trigger (pin 2)", "output (pin 3)", "threshold (pin 6)", "discharge (pin 7)"], {}),
+    "and":       (["input A", "input B", "output"], {"level": "5"}),
+    "or":        (["input A", "input B", "output"], {"level": "5"}),
+    "nand":      (["input A", "input B", "output"], {"level": "5"}),
+    "nor":       (["input A", "input B", "output"], {"level": "5"}),
+    "xor":       (["input A", "input B", "output"], {"level": "5"}),
+    "not":       (["input", "output"], {"level": "5"}),
+    # dots (+) mark the "start" of each winding: current going IN at a dot makes the OTHER dot positive
+    "transformer": (["primary dot (+)", "primary", "secondary dot (+)", "secondary"],
+                    {"ratio": "1", "inductance": "100m", "coupling": "0.99"}),
+}
+
+DIODE_MODELS = {
+    "1N4148": "D(IS=4.352n N=1.906 BV=110 IBV=0.0001 RS=0.6458 CJO=7.048p VJ=0.869 M=0.03 FC=0.5 TT=3.48n)",
+    "1N4007": "D(IS=7.02767n RS=0.0341512 N=1.80803 EG=1.05743 XTI=5 BV=1000 IBV=5e-08 CJO=1e-11 VJ=0.7 M=0.5 FC=0.5 TT=1e-07)",
+}
+
+BJT_MODELS = {
+    "2N3904": "NPN(IS=6.734f XTI=3 EG=1.11 VAF=74.03 BF=416.4 NE=1.259 ISE=6.734f IKF=66.78m XTB=1.5 BR=.7371 NC=2 "
+              "ISC=0 IKR=0 RC=1 CJC=3.638p MJC=.3085 VJC=.75 FC=.5 CJE=4.493p MJE=.2593 VJE=.75 TR=239.5n TF=301.2p "
+              "ITF=.4 VTF=4 XTF=2 RB=10)",
+    "2N2222": "NPN(IS=14.34f XTI=3 EG=1.11 VAF=74.03 BF=255.9 NE=1.307 ISE=14.34f IKF=.2847 XTB=1.5 BR=6.092 NC=2 "
+              "ISC=0 IKR=0 RC=1 CJC=7.306p MJC=.3416 VJC=.75 FC=.5 CJE=22.01p MJE=.377 VJE=.75 TR=46.91n TF=411.1p "
+              "ITF=.6 VTF=1.7 XTF=3 RB=10)",
+    "2N3906": "PNP(IS=1.41f XTI=3 EG=1.11 VAF=18.7 BF=180.7 NE=1.5 ISE=0 IKF=80m XTB=1.5 BR=4.977 NC=2 ISC=0 IKR=0 "
+              "RC=2.5 CJC=9.728p MJC=.5776 VJC=.75 FC=.5 CJE=8.063p MJE=.3677 VJE=.75 TR=33.42n TF=179.3p ITF=.4 "
+              "VTF=4 XTF=6 RB=10)",
+}
+
+MOS_MODELS = {
+    # Simple level-1 fit: threshold ~2.1 V, roughly 0.4 A at 5 V gate.
+    "2N7000": "NMOS(LEVEL=1 VTO=2.1 KP=0.1 LAMBDA=0.01 RD=1 RS=1 CGSO=0 CGDO=0)   # the real pin capacitances (Ciss/Crss) are added as capacitors in the netlist",
+}
+
+# Forward voltage at 20 mA for each LED colour (typical datasheet values)
+LED_VF = {"red": 1.8, "yellow": 2.0, "green": 2.1, "blue": 3.0, "white": 3.0}
+
+# Safe limits used for the friendly "this would burn out" warnings
+LIMITS = {
+    "led_max_a": 0.030,
+    "resistor_w": 0.25,       # ordinary 1/4 W resistor
+    "resistor_smoke_w": 1.0,
+    "battery_short_a": 1.0,
+    "bjt_max_a": {"2N3904": 0.2, "2N2222": 0.6, "2N3906": 0.2},
+    "mos_max_a": {"2N7000": 0.2},
+    "diode_max_a": {"1N4148": 0.3, "1N4007": 1.0},
+    "ic555_out_a": 0.2,       # NE555 output, sink or source
+    "ic555_max_v": 16.0,
+    "gate_out_a": 0.025,
+    "zener_w": 0.5,           # a small glass Zener
+    "motor_stall_a": 2.0,      # a typical logic-gate output
+}
+
+
+def led_model(color):
+    """Shockley diode tuned so it drops LED_VF[color] at 20 mA, with N=2 and a small series R."""
+    vf = LED_VF.get(color, 1.8)
+    n, vt, i0, rs = 2.0, 0.02585, 0.020, 2.0
+    is_ = i0 / math.exp((vf - i0 * rs) / (n * vt))
+    # EG chosen so Vf falls about 2 mV per degree as it warms up, like a real LED
+    eg = vf + 0.5
+    return f"D(IS={is_:.4e} N={n} RS={rs} EG={eg:.3f} XTI=3 BV=5 IBV=10u CJO=20p TT=10n)"

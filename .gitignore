@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+*.log
+logs/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.jks
+*.keystore
+tools/Spice64/*
+!tools/Spice64/README.txt

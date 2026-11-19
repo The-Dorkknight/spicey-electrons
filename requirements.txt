@@ -1,0 +1,2 @@
+# Spicey Electrons needs no extra Python packages (standard library only).
+# It does need the ngspice program: see README "Installing ngspice".

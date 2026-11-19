@@ -1,0 +1,33 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Build the PDF manual
+        run: |
+          pip install markdown pillow playwright
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y qpdf
+          VER=$(python -c "import sys; sys.path.insert(0,'src'); import spiceyelectrons; print(spiceyelectrons.__version__)")
+          echo "VER=$VER" >> $GITHUB_ENV
+          python tools/make_pdf.py --out "spicey-electrons-v$VER-manual.pdf"
+      - name: Source zip and checksums
+        run: |
+          git archive --format=zip --prefix=spicey-electrons/ -o "spicey-electrons-v$VER.zip" HEAD
+          sha256sum *.zip *.pdf > SHA256SUMS.txt
+      - name: Create pre-release
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          TAG="v$VER"
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --prerelease --title "Spicey Electrons $VER" \
+            --notes "Work in progress. Double-click the launcher for your computer; see the README. The PDF manual is attached." \
+            "spicey-electrons-v$VER.zip" "spicey-electrons-v$VER-manual.pdf" SHA256SUMS.txt

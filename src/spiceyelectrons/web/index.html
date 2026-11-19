@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- Required Notice: Copyright Matthew Armstrong (https://github.com/The-Dorkknight). PolyForm Noncommercial 1.0.0. No warranty. -->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spicey Electrons</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+</head>
+<body>
+<header id="topbar">
+  <div class="brand"><img class="logo" src="logo.png" alt=""> Spicey Electrons <span id="ver" class="ver"></span></div>
+  <div class="tools" role="toolbar">
+    <button class="tool active" data-tool="select" title="Move things, drag from a leg dot to draw a wire (V)">✋ Move</button>
+    <button class="tool" data-tool="wire" title="Draw wires anywhere (W)">〰️ Wire</button>
+    <button class="tool" data-tool="probe" title="Clip a scope probe on a wire (voltage) or a part (current) (P)">🔎 Probe</button>
+    <button class="tool" data-tool="erase" title="Click things to remove them (E)">🧽 Erase</button>
+    <span class="sep"></span>
+    <button id="rotateBtn" title="Turn the selected part (R)">↻</button>
+    <button id="undoBtn" title="Undo (Ctrl+Z)">↶</button>
+  </div>
+  <div class="runbox">
+    <label class="mini" title="Temperature">🌡
+      <span class="seg" id="tempSeg">
+        <button data-t="0">❄️ 0 °C</button><button data-t="20" class="on">20 °C</button><button data-t="40">☀️ 40 °C</button>
+      </span>
+    </label>
+    <label class="mini" title="How long a slice of time to show (the scope's timebase)">Show
+      <select id="duration">
+        <option value="">auto</option>
+        <option value="1e-7">0.1 µs</option><option value="1e-6">1 µs</option><option value="2e-6">2 µs</option><option value="5e-6">5 µs</option><option value="1e-5">10 µs</option><option value="2e-5">20 µs</option>
+        <option value="4e-5">40 µs</option><option value="1e-4">0.1 ms</option><option value="1e-3">1 ms</option><option value="5e-3">5 ms</option>
+        <option value="1e-2">10 ms</option><option value="0.1">100 ms</option><option value="1">1 s</option><option value="5">5 s</option>
+      </select>
+    </label>
+    <label class="mini" title="Skip this long before the slice starts (the scope's delay). Handy for fast circuits that need a moment to warm up.">From
+      <select id="from">
+        <option value="0">start</option><option value="1e-6">1 µs</option><option value="1e-5">10 µs</option>
+        <option value="1e-4">0.1 ms</option><option value="1e-3">1 ms</option><option value="1e-2">10 ms</option>
+        <option value="0.1">100 ms</option><option value="1">1 s</option>
+      </select>
+    </label>
+    <button id="runBtn" class="run">▶ Run</button>
+  </div>
+  <div class="filebox">
+    <select id="examples"><option value="">📚 Examples…</option></select>
+    <button id="newBtn" title="Start again">🗋</button>
+    <button id="saveBtn" title="Save to a file">💾</button>
+    <button id="loadBtn" title="Open a saved file">📂</button>
+    <input type="file" id="loadFile" accept=".json,.se" hidden>
+  </div>
+</header>
+
+<main>
+  <aside id="sidebar">
+    <div id="palette"></div>
+    <div id="preview" class="card"><div class="hint">Point at a part to see what it does.</div></div>
+  </aside>
+
+  <section id="boardWrap">
+    <div id="props" class="card hidden"></div>
+    <svg id="board" tabindex="0">
+      <defs>
+        <pattern id="gridSmall" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="0" cy="0" r="1.1" fill="#c9d3e3"/>
+        </pattern>
+        <marker id="arrowHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10z" fill="currentColor"/>
+        </marker>
+      </defs>
+      <g id="world">
+        <rect id="gridRect" x="-5000" y="-5000" width="10000" height="10000" fill="url(#gridSmall)"/>
+        <g id="wiresLayer"></g>
+        <g id="flowLayer"></g>
+        <g id="partsLayer"></g>
+        <g id="dotsLayer"></g>
+        <g id="probesLayer"></g>
+        <g id="ghostLayer"></g>
+      </g>
+    </svg>
+    <div id="tip" class="tip hidden"></div>
+    <div id="ctx" class="ctx hidden"></div>
+    <div id="status" class="status"></div>
+    <div id="busy" class="busy hidden"><span class="spinner"></span><span id="busyText">Simulating…</span><button id="stopBtn">Stop</button></div>
+  </section>
+
+  <section id="scopeWrap">
+    <div id="scopeGrip" title="Drag up or down to make the scope taller or shorter (double-click to reset)"><span></span></div>
+    <div class="scopeHead">
+      <strong>📺 Scope</strong>
+      <span id="legend"></span>
+      <span class="grow"></span>
+      <span class="seg waves" id="waveSeg" title="Zoom in on a number of repeating waves (cycles). The simulation is re-run so you see them in full detail.">
+        <button data-w="2">2 waves</button><button data-w="10">10</button><button data-w="50">50</button><button data-w="0">max</button>
+      </span>
+      <button id="zoomBtn" class="hidden" title="This signal is too small to see next to the big one. Click to scale the graph to fit it.">🔍 Enlarge</button>
+      <button id="playBtn" title="Play the circuit in slow motion (the board, dots and charge bars follow the scope)">⏸ Pause</button>
+      <label class="mini" title="Playback speed. 1× takes 6 seconds to play the whole scope window. Click the ticks for 0.1×, 0.25×, 0.5×, 1×, 2×, 4× and 10×."><span id="speedLbl">1×</span>
+        <input type="range" id="speed" min="0" max="6" step="1" value="3" list="speedTicks"></label>
+      <datalist id="speedTicks"><option value="0"></option><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5"></option><option value="6"></option></datalist>
+      <label class="mini" title="Play the scope window over and over"><input type="checkbox" id="loopPlay" checked> loop</label>
+      <label class="mini"><input type="checkbox" id="autoRun" checked> re-run when I change things</label>
+      <label class="mini" title="Little dots that move the way current flows (bigger current = faster, bigger dots)"><input type="checkbox" id="flowDots" checked> current dots</label>
+    </div>
+    <div id="scopeBox"><canvas id="scope"></canvas></div>
+    <div id="messages"></div>
+  </section>
+</main>
+<footer id="footer"></footer>
+<script src="app.js"></script>
+</body>
+</html>
