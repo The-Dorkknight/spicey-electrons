@@ -1,0 +1,77 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_G1 n2 G1_am 0\nR_G1_i0 n1 0 10Meg\nB_G1 G1_x 0 V = 5*(1-(0.5*(1+tanh((v(n1)-2.5)/0.2))))\nR_G1_d G1_x G1_y 1000\nC_G1_d G1_y 0 10p\nB_G1_buf G1_o 0 V = v(G1_y)\nR_G1_out G1_o G1_am 50\n.ic v(G1_y)=0\nvam_G2 n3 G2_am 0\nR_G2_i0 n2 0 10Meg\nB_G2 G2_x 0 V = 5*(1-(0.5*(1+tanh((v(n2)-2.5)/0.2))))\nR_G2_d G2_x G2_y 1030\nC_G2_d G2_y 0 10p\nB_G2_buf G2_o 0 V = v(G2_y)\nR_G2_out G2_o G2_am 50\n.ic v(G2_y)=5\nvam_G3 n1 G3_am 0\nR_G3_i0 n3 0 10Meg\nB_G3 G3_x 0 V = 5*(1-(0.5*(1+tanh((v(n3)-2.5)/0.2))))\nR_G3_d G3_x G3_y 1060\nC_G3_d G3_y 0 10p\nB_G3_buf G3_o 0 V = v(G3_y)\nR_G3_out G3_o G3_am 50\n.ic v(G3_y)=0\n.control\nset filetype=binary\ntran 1e-09 1e-06 0 1e-09\nwrite __OUT__ v(n1) v(n2) v(n3) i(vam_g1) i(vam_g2) i(vam_g3)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3"
+  ],
+  "currents": {
+   "G1": [
+    "i(vam_g1)",
+    -1.0
+   ],
+   "G2": [
+    "i(vam_g2)",
+    -1.0
+   ],
+   "G3": [
+    "i(vam_g3)",
+    -1.0
+   ]
+  },
+  "pinvecs": {
+   "G1": {
+    "1": "i(vam_g1)"
+   },
+   "G2": {
+    "1": "i(vam_g2)"
+   },
+   "G3": {
+    "1": "i(vam_g3)"
+   }
+  },
+  "duration": 1e-06,
+  "start": 0.0,
+  "fmax": 0.0,
+  "steps": 1000.0000000000001,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "G1",
+    "type": "not",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "G2",
+    "type": "not",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "G3",
+    "type": "not",
+    "nodes": [
+     "n3",
+     "n1"
+    ],
+    "props": {
+     "level": "5"
+    }
+   }
+  ]
+ },
+ "error": null
+}

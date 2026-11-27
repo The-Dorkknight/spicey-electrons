@@ -1,0 +1,78 @@
+{
+ "name": "Joule thief (1.5 V lights an LED)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "1.5"
+    }
+   },
+   {
+    "id": "T1",
+    "type": "transformer",
+    "nodes": [
+     "n1",
+     "n2",
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "ratio": "1",
+     "inductance": "10u",
+     "coupling": "0.99"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n3",
+     "n2",
+     "0"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n2",
+     "n1"
+    ],
+    "props": {
+     "color": "red"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 4e-05,
+  "start": 1e-05
+ }
+}

@@ -91,11 +91,12 @@
     <div class="scopeHead">
       <strong>📺 Scope</strong>
       <span id="legend"></span>
-      <span class="grow"></span>
+    </div>
+    <div class="scopeHead scopeCtl">
       <span class="seg waves" id="waveSeg" title="Zoom in on a number of repeating waves (cycles). The simulation is re-run so you see them in full detail.">
         <button data-w="2">2 waves</button><button data-w="10">10</button><button data-w="50">50</button><button data-w="0">max</button>
       </span>
-      <button id="zoomBtn" class="hidden" title="This signal is too small to see next to the big one. Click to scale the graph to fit it.">🔍 Enlarge</button>
+      <button id="zoomBtn" class="ghost" title="This signal is too small to see next to the big one. Click to scale the graph to fit it.">🔍 Enlarge</button>
       <button id="playBtn" title="Play the circuit in slow motion (the board, dots and charge bars follow the scope)">⏸ Pause</button>
       <label class="mini" title="Playback speed. 1× takes 6 seconds to play the whole scope window. Click the ticks for 0.1×, 0.25×, 0.5×, 1×, 2×, 4× and 10×."><span id="speedLbl">1×</span>
         <input type="range" id="speed" min="0" max="6" step="1" value="3" list="speedTicks"></label>

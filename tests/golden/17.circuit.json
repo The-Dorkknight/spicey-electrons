@@ -1,0 +1,43 @@
+{
+ "name": "Ring oscillator (3 NOT gates)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "G1",
+    "type": "not",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "G2",
+    "type": "not",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "G3",
+    "type": "not",
+    "nodes": [
+     "n3",
+     "n1"
+    ],
+    "props": {
+     "level": "5"
+    }
+   }
+  ],
+  "temp": 20,
+  "duration": 1e-06,
+  "start": 0
+ }
+}

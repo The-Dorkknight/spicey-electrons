@@ -1,0 +1,68 @@
+{
+ "name": "MOSFET false turn-on (Miller kick)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "high": "12",
+     "low": "0",
+     "frequency": "1M",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "100"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "M1",
+    "type": "nmos",
+    "nodes": [
+     "n3",
+     "n2",
+     "0"
+    ],
+    "props": {
+     "model": "2N7000",
+     "cgs": "16p",
+     "cgd": "4p"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 5e-06,
+  "start": 0
+ }
+}

@@ -1,0 +1,164 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 1e-06 9)\nR_B1_in B1_am B1_int 0.1\nvam_B2 0 B2_am 0\nV_B2 B2_int n2 PWL(0 0 1e-06 9)\nR_B2_in B2_am B2_int 0.1\nvam_SIG1 n3 SIG1_am 0\nV_SIG1 SIG1_int 0 SIN(0 3 1000)\nR_SIG1_in SIG1_am SIG1_int 0.1\nvam_Q1 n1 Q1_am 0\nvam_Q1_p0 n3 Q1_p0 0\nvam_Q1_p2 n4 Q1_p2 0\nQ_Q1 Q1_am Q1_p0 Q1_p2 2N3904\nvam_Q2 n2 Q2_am 0\nvam_Q2_p0 n3 Q2_p0 0\nvam_Q2_p2 n4 Q2_p2 0\nQ_Q2 Q2_am Q2_p0 Q2_p2 2N3906\nvam_R1 n4 R1_am 0\nR_R1 R1_am 0 100\n.model 2N3904 NPN(IS=6.734f XTI=3 EG=1.11 VAF=74.03 BF=416.4 NE=1.259 ISE=6.734f IKF=66.78m XTB=1.5 BR=.7371 NC=2 ISC=0 IKR=0 RC=1 CJC=3.638p MJC=.3085 VJC=.75 FC=.5 CJE=4.493p MJE=.2593 VJE=.75 TR=239.5n TF=301.2p ITF=.4 VTF=4 XTF=2 RB=10)\n.model 2N3906 PNP(IS=1.41f XTI=3 EG=1.11 VAF=18.7 BF=180.7 NE=1.5 ISE=0 IKF=80m XTB=1.5 BR=4.977 NC=2 ISC=0 IKR=0 RC=2.5 CJC=9.728p MJC=.5776 VJC=.75 FC=.5 CJE=8.063p MJE=.3677 VJE=.75 TR=33.42n TF=179.3p ITF=.4 VTF=4 XTF=6 RB=10)\n.control\nset filetype=binary\ntran 5e-06 0.005 0 5e-06\nwrite __OUT__ v(n1) v(n2) v(n3) v(n4) i(vam_b1) i(vam_b2) i(vam_sig1) i(vam_q1) i(vam_q2) i(vam_r1) i(vam_q1_p0) i(vam_q1_p2) i(vam_q2_p0) i(vam_q2_p2)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3",
+   "n4"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "B2": [
+    "i(vam_b2)",
+    -1.0
+   ],
+   "SIG1": [
+    "i(vam_sig1)",
+    -1.0
+   ],
+   "Q1": [
+    "i(vam_q1)",
+    1.0
+   ],
+   "Q2": [
+    "i(vam_q2)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "B2": {
+    "0": "i(vam_b2)"
+   },
+   "SIG1": {
+    "0": "i(vam_sig1)"
+   },
+   "Q1": {
+    "1": "i(vam_q1)",
+    "0": "i(vam_q1_p0)",
+    "2": "i(vam_q1_p2)"
+   },
+   "Q2": {
+    "1": "i(vam_q2)",
+    "0": "i(vam_q2_p0)",
+    "2": "i(vam_q2_p2)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   }
+  },
+  "duration": 0.005,
+  "start": 0.0,
+  "fmax": 1000.0,
+  "steps": 999.9999999999999,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "B2",
+    "type": "battery",
+    "nodes": [
+     "0",
+     "n2"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "amplitude": "3",
+     "frequency": "1k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n3",
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "Q2",
+    "type": "pnp",
+    "nodes": [
+     "n3",
+     "n2",
+     "n4"
+    ],
+    "props": {
+     "model": "2N3906"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "0"
+    ],
+    "props": {
+     "value": "100"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND2",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND3",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

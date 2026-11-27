@@ -1,0 +1,166 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 1e-06 9)\nR_B1_in B1_am B1_int 0.1\nvam_U1 n3 U1_am 0\nvam_U1_p0 n1 U1_p0 0\nvam_U1_p1 0 U1_p1 0\nvam_U1_p2 n2 U1_p2 0\nvam_U1_p4 n2 U1_p4 0\nvam_U1_p5 n4 U1_p5 0\nR_U1_sup U1_p0 U1_p1 2k\nC_U1_q U1_q U1_p1 100p\nB_U1_s U1_p1 U1_q I = 1m*(0.5*(1+tanh(((v(U1_p0,U1_p1))/3-v(U1_p2,U1_p1))/0.02))*(1-0.5*(1+tanh((v(U1_p4,U1_p1)-2*v(U1_p0,U1_p1)/3)/0.02)))*(1-v(U1_q,U1_p1)) - 0.5*(1+tanh((v(U1_p4,U1_p1)-2*v(U1_p0,U1_p1)/3)/0.02))*v(U1_q,U1_p1) + 1.2*v(U1_q,U1_p1)*(1-v(U1_q,U1_p1))*(2*v(U1_q,U1_p1)-1))\nB_U1_o U1_o U1_p1 V = v(U1_p0,U1_p1)*(0.5+0.5*tanh(12*(v(U1_q,U1_p1)-0.5)))\nR_U1_out U1_o U1_am 15\nB_U1_b U1_qb U1_p1 V = 1-v(U1_q,U1_p1)\nS_U1 U1_p5 U1_p1 U1_qb U1_p1 SW555\nvam_R1 n1 R1_am 0\nR_R1 R1_am n4 1000\nvam_R2 n4 R2_am 0\nR_R2 R2_am n2 47000\nvam_C1 n2 C1_am 0\nC_C1 C1_am 0 1e-05\nvam_R3 n3 R3_am 0\nR_R3 R3_am n5 470\nvam_LED1 n5 LED1_am 0\nD_LED1 LED1_am 0 LED_red\n.model SW555 SW(Vt=0.5 Vh=0.05 Ron=20 Roff=1e12)\n.model LED_red D(IS=3.2850e-17 N=2.0 RS=2.0 EG=2.300 XTI=3 BV=5 IBV=10u CJO=20p TT=10n)\n.control\nset filetype=binary\ntran 0.005 5 0 0.005\nwrite __OUT__ v(n1) v(n2) v(n3) v(n4) v(n5) i(vam_b1) i(vam_u1) i(vam_r1) i(vam_r2) i(vam_c1) i(vam_r3) i(vam_led1) i(vam_u1_p0) i(vam_u1_p1) i(vam_u1_p2) i(vam_u1_p4) i(vam_u1_p5)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3",
+   "n4",
+   "n5"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "U1": [
+    "i(vam_u1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ],
+   "C1": [
+    "i(vam_c1)",
+    1.0
+   ],
+   "R3": [
+    "i(vam_r3)",
+    1.0
+   ],
+   "LED1": [
+    "i(vam_led1)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "U1": {
+    "3": "i(vam_u1)",
+    "0": "i(vam_u1_p0)",
+    "1": "i(vam_u1_p1)",
+    "2": "i(vam_u1_p2)",
+    "4": "i(vam_u1_p4)",
+    "5": "i(vam_u1_p5)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   },
+   "C1": {
+    "0": "i(vam_c1)"
+   },
+   "R3": {
+    "0": "i(vam_r3)"
+   },
+   "LED1": {
+    "0": "i(vam_led1)"
+   }
+  },
+  "duration": 5.0,
+  "start": 0.0,
+  "fmax": 0.0,
+  "steps": 1000.0,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "555",
+    "nodes": [
+     "n1",
+     "0",
+     "n2",
+     "n3",
+     "n2",
+     "n4"
+    ],
+    "props": {}
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "n2"
+    ],
+    "props": {
+     "value": "47k"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "10u"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "n5"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n5",
+     "0"
+    ],
+    "props": {
+     "color": "red"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

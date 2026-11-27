@@ -1,0 +1,124 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_SIG1 n1 SIG1_am 0\nV_SIG1 SIG1_int 0 SIN(0 0.5 1000)\nR_SIG1_in SIG1_am SIG1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 1000\nvam_U1 n3 U1_am 0\nR_U1_in n2 0 10Meg\nB_U1 U1_o 0 V = 12*tanh(1e5*(v(0)-v(n2))/12)\nR_U1_out U1_o U1_am 50\nvam_R2 n2 R2_am 0\nR_R2 R2_am n3 10000\nvam_R3 n3 R3_am 0\nR_R3 R3_am 0 10000\n.control\nset filetype=binary\ntran 5e-06 0.005 0 5e-06\nwrite __OUT__ v(n1) v(n2) v(n3) i(vam_sig1) i(vam_r1) i(vam_u1) i(vam_r2) i(vam_r3)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3"
+  ],
+  "currents": {
+   "SIG1": [
+    "i(vam_sig1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "U1": [
+    "i(vam_u1)",
+    -1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ],
+   "R3": [
+    "i(vam_r3)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "SIG1": {
+    "0": "i(vam_sig1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "U1": {
+    "2": "i(vam_u1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   },
+   "R3": {
+    "0": "i(vam_r3)"
+   }
+  },
+  "duration": 0.005,
+  "start": 0.0,
+  "fmax": 1000.0,
+  "steps": 999.9999999999999,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "amplitude": "0.5",
+     "frequency": "1k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "opamp",
+    "nodes": [
+     "n2",
+     "0",
+     "n3"
+    ],
+    "props": {
+     "rails": "12"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

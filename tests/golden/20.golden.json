@@ -1,0 +1,103 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 1e-06 12)\nR_B1_in B1_am B1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 1000\nvam_R2 n2 R2_am 0\nR_R2 R2_am n3 2000\nvam_R3 n3 R3_am 0\nR_R3 R3_am 0 3000\n.control\nset filetype=binary\ntran 1e-05 0.01 0 1e-05\nwrite __OUT__ v(n1) v(n2) v(n3) i(vam_b1) i(vam_r1) i(vam_r2) i(vam_r3)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ],
+   "R3": [
+    "i(vam_r3)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   },
+   "R3": {
+    "0": "i(vam_r3)"
+   }
+  },
+  "duration": 0.01,
+  "start": 0.0,
+  "fmax": 0.0,
+  "steps": 999.9999999999999,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "12"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "value": "2k"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "3k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

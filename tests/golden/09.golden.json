@@ -1,0 +1,275 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 1e-07 9)\nR_B1_in B1_am B1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 33000\nvam_R2 n2 R2_am 0\nR_R2 R2_am 0 10000\nvam_Q1 n3 Q1_am 0\nvam_Q1_p0 n2 Q1_p0 0\nvam_Q1_p2 n4 Q1_p2 0\nQ_Q1 Q1_am Q1_p0 Q1_p2 2N2222\nvam_C1 n2 C1_am 0\nC_C1 C1_am 0 1e-10\nvam_R3 n4 R3_am 0\nR_R3 R3_am 0 470\nvam_C2 n3 C2_am 0\nC_C2 C2_am n4 5e-12\nvam_L1 n1 L1_am 0\nL_L1 L1_am L1_l 2e-07\nR_L1_w L1_l n3 0.01\nvam_C3 n1 C3_am 0\nC_C3 C3_am n3 1e-11\nvam_C4 n1 C4_am 0\nC_C4 C4_am 0 1e-08\nvam_SIG1 n5 SIG1_am 0\nV_SIG1 SIG1_int 0 SIN(0 0.2 20000)\nR_SIG1_in SIG1_am SIG1_int 0.1\nvam_R4 n5 R4_am 0\nR_R4 R4_am n6 4700\nvam_C5 n6 C5_am 0\nC_C5 C5_am n2 1e-07\n.model 2N2222 NPN(IS=14.34f XTI=3 EG=1.11 VAF=74.03 BF=255.9 NE=1.307 ISE=14.34f IKF=.2847 XTB=1.5 BR=6.092 NC=2 ISC=0 IKR=0 RC=1 CJC=7.306p MJC=.3416 VJC=.75 FC=.5 CJE=22.01p MJE=.377 VJE=.75 TR=46.91n TF=411.1p ITF=.6 VTF=1.7 XTF=3 RB=10)\n.control\nset filetype=binary\ntran 1e-07 0.00011 1e-05 1.5708e-10\nwrite __OUT__ v(n1) v(n2) v(n3) v(n4) v(n5) v(n6) i(vam_b1) i(vam_r1) i(vam_r2) i(vam_q1) i(vam_c1) i(vam_r3) i(vam_c2) i(vam_l1) i(vam_c3) i(vam_c4) i(vam_sig1) i(vam_r4) i(vam_c5) i(vam_q1_p0) i(vam_q1_p2)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3",
+   "n4",
+   "n5",
+   "n6"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ],
+   "Q1": [
+    "i(vam_q1)",
+    1.0
+   ],
+   "C1": [
+    "i(vam_c1)",
+    1.0
+   ],
+   "R3": [
+    "i(vam_r3)",
+    1.0
+   ],
+   "C2": [
+    "i(vam_c2)",
+    1.0
+   ],
+   "L1": [
+    "i(vam_l1)",
+    1.0
+   ],
+   "C3": [
+    "i(vam_c3)",
+    1.0
+   ],
+   "C4": [
+    "i(vam_c4)",
+    1.0
+   ],
+   "SIG1": [
+    "i(vam_sig1)",
+    -1.0
+   ],
+   "R4": [
+    "i(vam_r4)",
+    1.0
+   ],
+   "C5": [
+    "i(vam_c5)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   },
+   "Q1": {
+    "1": "i(vam_q1)",
+    "0": "i(vam_q1_p0)",
+    "2": "i(vam_q1_p2)"
+   },
+   "C1": {
+    "0": "i(vam_c1)"
+   },
+   "R3": {
+    "0": "i(vam_r3)"
+   },
+   "C2": {
+    "0": "i(vam_c2)"
+   },
+   "L1": {
+    "0": "i(vam_l1)"
+   },
+   "C3": {
+    "0": "i(vam_c3)"
+   },
+   "C4": {
+    "0": "i(vam_c4)"
+   },
+   "SIG1": {
+    "0": "i(vam_sig1)"
+   },
+   "R4": {
+    "0": "i(vam_r4)"
+   },
+   "C5": {
+    "0": "i(vam_c5)"
+   }
+  },
+  "duration": 0.0001,
+  "start": 1e-05,
+  "fmax": 159154943.09189537,
+  "steps": 700281.7496043396,
+  "temp": 20.0,
+  "notes": [
+   "This one needs about 700,282 tiny steps because something in it is very fast, so it can take a little while."
+  ],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "33k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n2",
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "model": "2N2222"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "100p"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "0"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "C2",
+    "type": "capacitor",
+    "nodes": [
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "value": "5p"
+    }
+   },
+   {
+    "id": "L1",
+    "type": "inductor",
+    "nodes": [
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "value": "0.2u"
+    }
+   },
+   {
+    "id": "C3",
+    "type": "capacitor",
+    "nodes": [
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "value": "10p"
+    }
+   },
+   {
+    "id": "C4",
+    "type": "capacitor",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "value": "10n"
+    }
+   },
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n5",
+     "0"
+    ],
+    "props": {
+     "amplitude": "0.2",
+     "frequency": "20k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "R4",
+    "type": "resistor",
+    "nodes": [
+     "n5",
+     "n6"
+    ],
+    "props": {
+     "value": "4.7k"
+    }
+   },
+   {
+    "id": "C5",
+    "type": "capacitor",
+    "nodes": [
+     "n6",
+     "n2"
+    ],
+    "props": {
+     "value": "100n"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

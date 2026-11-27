@@ -1,0 +1,100 @@
+{
+ "name": "555 one-shot timer (monostable)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "high": "9",
+     "low": "0",
+     "frequency": "0.5",
+     "duty": "90"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "555",
+    "nodes": [
+     "n1",
+     "0",
+     "n2",
+     "n3",
+     "n4",
+     "n4"
+    ],
+    "props": {}
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "value": "100k"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n4",
+     "0"
+    ],
+    "props": {
+     "value": "10u"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "n5"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n5",
+     "0"
+    ],
+    "props": {
+     "color": "green"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 5,
+  "start": 0
+ }
+}

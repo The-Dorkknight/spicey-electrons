@@ -1,0 +1,52 @@
+{
+ "name": "Light bulb surge (cold wire gulps current)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "6"
+    }
+   },
+   {
+    "id": "S1",
+    "type": "switch",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "closed": true
+    }
+   },
+   {
+    "id": "LA1",
+    "type": "lamp",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "volts": "6",
+     "amps": "0.1"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 1,
+  "start": 0
+ }
+}

@@ -1,0 +1,198 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 1e-06 9)\nR_B1_in B1_am B1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 10000\nvam_R2 n2 R2_am 0\nR_R2 R2_am 0 10000\nvam_TH1 n1 TH1_am 0\nR_TH1 TH1_am n3 12535.3\nvam_R3 n3 R3_am 0\nR_R3 R3_am 0 10000\nvam_U1 n4 U1_am 0\nR_U1_in n2 n3 10Meg\nB_U1 U1_o 0 V = 9*tanh(1e5*(v(n3)-v(n2))/9)\nR_U1_out U1_o U1_am 50\nvam_R4 n4 R4_am 0\nR_R4 R4_am n5 470\nvam_D1 n5 D1_am 0\nD_D1 D1_am n6 1N4007\nvam_LED1 n6 LED1_am 0\nD_LED1 LED1_am 0 LED_red\n.model 1N4007 D(IS=7.02767n RS=0.0341512 N=1.80803 EG=1.05743 XTI=5 BV=1000 IBV=5e-08 CJO=1e-11 VJ=0.7 M=0.5 FC=0.5 TT=1e-07)\n.model LED_red D(IS=3.2850e-17 N=2.0 RS=2.0 EG=2.300 XTI=3 BV=5 IBV=10u CJO=20p TT=10n)\n.control\nset filetype=binary\ntran 1e-06 0.001 0 1e-06\nwrite __OUT__ v(n1) v(n2) v(n3) v(n4) v(n5) v(n6) i(vam_b1) i(vam_r1) i(vam_r2) i(vam_th1) i(vam_r3) i(vam_u1) i(vam_r4) i(vam_d1) i(vam_led1)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3",
+   "n4",
+   "n5",
+   "n6"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ],
+   "TH1": [
+    "i(vam_th1)",
+    1.0
+   ],
+   "R3": [
+    "i(vam_r3)",
+    1.0
+   ],
+   "U1": [
+    "i(vam_u1)",
+    -1.0
+   ],
+   "R4": [
+    "i(vam_r4)",
+    1.0
+   ],
+   "D1": [
+    "i(vam_d1)",
+    1.0
+   ],
+   "LED1": [
+    "i(vam_led1)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   },
+   "TH1": {
+    "0": "i(vam_th1)"
+   },
+   "R3": {
+    "0": "i(vam_r3)"
+   },
+   "U1": {
+    "2": "i(vam_u1)"
+   },
+   "R4": {
+    "0": "i(vam_r4)"
+   },
+   "D1": {
+    "0": "i(vam_d1)"
+   },
+   "LED1": {
+    "0": "i(vam_led1)"
+   }
+  },
+  "duration": 0.001,
+  "start": 0.0,
+  "fmax": 0.0,
+  "steps": 1000.0000000000001,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "TH1",
+    "type": "thermistor",
+    "nodes": [
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "r25": "10k",
+     "warm": "0"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "opamp",
+    "nodes": [
+     "n2",
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "rails": "9"
+    }
+   },
+   {
+    "id": "R4",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "n5"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n5",
+     "n6"
+    ],
+    "props": {
+     "model": "1N4007"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n6",
+     "0"
+    ],
+    "props": {
+     "color": "red"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

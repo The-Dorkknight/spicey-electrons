@@ -1,0 +1,130 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 4e-08 12)\nR_B1_in B1_am B1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 470\nvam_R2 n3 R2_am 0\nR_R2 R2_am n4 22000\nvam_M1 n2 M1_am 0\nvam_M1_p0 n4 M1_p0 0\nvam_M1_p2 0 M1_p2 0\nM_M1 M1_am M1_p0 M1_p2 M1_p2 2N7000\nC_M1_cgs M1_p0 M1_p2 6e-11\nC_M1_cgd M1_p0 M1_am 3e-11\nC_M1_ds M1_am M1_p2 8p\nvam_SQ1 n3 SQ1_am 0\nV_SQ1 SQ1_int 0 PULSE(0 10 0 5e-08 5e-08 2.495e-05 5e-05)\nR_SQ1_in SQ1_am SQ1_int 0.1\n.model 2N7000 NMOS(LEVEL=1 VTO=2.1 KP=0.1 LAMBDA=0.01 RD=1 RS=1 CGSO=0 CGDO=0)   # the real pin capacitances (Ciss/Crss) are added as capacitors in the netlist\n.control\nset filetype=binary\ntran 4e-08 4e-05 0 4e-08\nwrite __OUT__ v(n1) v(n2) v(n3) v(n4) i(vam_b1) i(vam_r1) i(vam_r2) i(vam_m1) i(vam_sq1) i(vam_m1_p0) i(vam_m1_p2)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3",
+   "n4"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ],
+   "M1": [
+    "i(vam_m1)",
+    1.0
+   ],
+   "SQ1": [
+    "i(vam_sq1)",
+    -1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   },
+   "M1": {
+    "1": "i(vam_m1)",
+    "0": "i(vam_m1_p0)",
+    "2": "i(vam_m1_p2)"
+   },
+   "SQ1": {
+    "0": "i(vam_sq1)"
+   }
+  },
+  "duration": 4e-05,
+  "start": 0.0,
+  "fmax": 20000.0,
+  "steps": 1000.0000000000001,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "12"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "value": "22k"
+    }
+   },
+   {
+    "id": "M1",
+    "type": "nmos",
+    "nodes": [
+     "n4",
+     "n2",
+     "0"
+    ],
+    "props": {
+     "model": "2N7000",
+     "cgs": "60p",
+     "cgd": "30p"
+    }
+   },
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "high": "10",
+     "low": "0",
+     "frequency": "20k",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

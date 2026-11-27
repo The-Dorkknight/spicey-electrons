@@ -1,0 +1,97 @@
+{
+ "name": "555 LED flasher (astable)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "555",
+    "nodes": [
+     "n1",
+     "0",
+     "n2",
+     "n3",
+     "n2",
+     "n4"
+    ],
+    "props": {}
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "n2"
+    ],
+    "props": {
+     "value": "47k"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "10u"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "n5"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n5",
+     "0"
+    ],
+    "props": {
+     "color": "red"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 5,
+  "start": 0
+ }
+}

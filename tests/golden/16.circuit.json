@@ -1,0 +1,116 @@
+{
+ "name": "Logic gates: half adder",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "high": "5",
+     "low": "0",
+     "frequency": "500",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "SQ2",
+    "type": "square",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "high": "5",
+     "low": "0",
+     "frequency": "1k",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "G1",
+    "type": "xor",
+    "nodes": [
+     "n1",
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "G2",
+    "type": "and",
+    "nodes": [
+     "n1",
+     "n2",
+     "n4"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND2",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND3",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND4",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.01,
+  "start": 0
+ }
+}

@@ -1,0 +1,119 @@
+{
+ "name": "Heat alarm (thermistor + comparator)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "TH1",
+    "type": "thermistor",
+    "nodes": [
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "r25": "10k",
+     "warm": "0"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "opamp",
+    "nodes": [
+     "n2",
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "rails": "9"
+    }
+   },
+   {
+    "id": "R4",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "n5"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n5",
+     "n6"
+    ],
+    "props": {
+     "model": "1N4007"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n6",
+     "0"
+    ],
+    "props": {
+     "color": "red"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.001,
+  "start": 0
+ }
+}

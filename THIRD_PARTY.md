@@ -1,3 +1,8 @@
+
+
+## eecircuit-engine (web version only)
+
+ngspice compiled to WebAssembly, MIT licence, https://github.com/eelab-dev/EEcircuit-engine. It is fetched with npm when the web version is built (about 20 MB) and is **not** stored in this repo or in the downloaded app. Its licence text is copied beside it in the published site.
 # Third-party software and credits
 
 Spicey Electrons's licence (PolyForm Noncommercial 1.0.0) covers **only Matthew Armstrong's own code**

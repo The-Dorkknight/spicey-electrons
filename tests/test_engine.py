@@ -185,6 +185,31 @@ class Simulations(unittest.TestCase):
         finally:
             os.environ.pop("SE_TEST_CRASH", None)
 
+    def test_gave_up_is_stopped_early(self):
+        """If ngspice says it aborted but then sits there, we stop in about a second, not at the 120 s limit."""
+        c = {"parts": [part("B1", "battery", ["a", "0"], voltage="3"), part("R1", "resistor", ["a", "0"], value="77")],
+             "time_limit": 60}
+        os.environ["SE_TEST_CRASH"] = "stuck"
+        try:
+            t0 = time.time()
+            r = simulate(c)
+            self.assertFalse(r["ok"])
+            self.assertLess(time.time() - t0, 6)
+            self.assertNotIn("longer than", r["error"])
+        finally:
+            os.environ.pop("SE_TEST_CRASH", None)
+
+    def test_repeat_run_is_cached(self):
+        c = {"parts": [part("B1", "battery", ["a", "0"], voltage="4"), part("R1", "resistor", ["a", "0"], value="123")]}
+        first = simulate(c)
+        second = simulate(c)
+        self.assertTrue(second.get("cached"))
+        self.assertEqual(first["voltages"], second["voltages"])
+        second["voltages"]["a"][0] = 99                      # changing one result must not change the stored copy
+        self.assertNotEqual(simulate(c)["voltages"]["a"][0], 99)
+        c["parts"][1]["props"]["value"] = "124"
+        self.assertFalse(simulate(c).get("cached"))
+
     def test_heavy_job_heartbeat(self):
         """A long run on one core must keep reporting that it is alive."""
         job = {}

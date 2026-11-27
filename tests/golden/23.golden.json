@@ -1,0 +1,86 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 1e-06 6)\nR_B1_in B1_am B1_int 0.1\nvam_S1 n1 S1_am 0\nR_S1 S1_am n2 0.01\nvam_LA1 n2 LA1_am 0\nB_LA1 LA1_am 0 I = v(LA1_am,0)/(60*(0.1+0.9*abs(v(LA1_x))))\nC_LA1_x LA1_x 0 1\nB_LA1_t 0 LA1_x I = (((v(LA1_am,0)*v(LA1_am,0)/(60*(0.1+0.9*abs(v(LA1_x)))))/0.6+1e-9)^0.25 - v(LA1_x))/0.15\n.ic v(LA1_x)=0\n.control\nset filetype=binary\ntran 0.001 1 0 0.001\nwrite __OUT__ v(LA1_x) v(n1) v(n2) i(vam_b1) i(vam_s1) i(vam_la1)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "LA1_x",
+   "n1",
+   "n2"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "S1": [
+    "i(vam_s1)",
+    1.0
+   ],
+   "LA1": [
+    "i(vam_la1)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "S1": {
+    "0": "i(vam_s1)"
+   },
+   "LA1": {
+    "0": "i(vam_la1)"
+   }
+  },
+  "duration": 1.0,
+  "start": 0.0,
+  "fmax": 0.0,
+  "steps": 1000.0,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "6"
+    }
+   },
+   {
+    "id": "S1",
+    "type": "switch",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "closed": true
+    }
+   },
+   {
+    "id": "LA1",
+    "type": "lamp",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "volts": "6",
+     "amps": "0.1"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

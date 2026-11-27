@@ -1,0 +1,73 @@
+{
+ "name": "Schmitt trigger (hysteresis: it remembers which way it was going)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "amplitude": "4",
+     "frequency": "200",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "opamp",
+    "nodes": [
+     "0",
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "rails": "5"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "value": "22k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND2",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.01,
+  "start": 0
+ }
+}

@@ -1,0 +1,79 @@
+{
+ "name": "Transformer power supply",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "amplitude": "20",
+     "frequency": "50",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "T1",
+    "type": "transformer",
+    "nodes": [
+     "n1",
+     "0",
+     "n2",
+     "0"
+    ],
+    "props": {
+     "ratio": "0.5",
+     "inductance": "1",
+     "coupling": "0.999"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "model": "1N4007"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "470u"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.1,
+  "start": 0
+ }
+}

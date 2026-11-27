@@ -1,0 +1,64 @@
+{
+ "name": "Dim an LED with a volume knob",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "VR1",
+    "type": "pot",
+    "nodes": [
+     "n1",
+     "n2",
+     "n1"
+    ],
+    "props": {
+     "value": "10k",
+     "position": "20"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "color": "blue"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "220"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": null,
+  "start": 0
+ }
+}

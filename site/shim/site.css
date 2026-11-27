@@ -1,0 +1,7 @@
+/* Required Notice: Copyright Matthew Armstrong (https://github.com/The-Dorkknight). PolyForm Noncommercial 1.0.0. No warranty. */
+/* Web version only: the yellow information bar. */
+#webBanner{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;background:#fff4d6;color:#4a3500;border-bottom:1px solid #e8c766;padding:6px 12px;font-size:13px;line-height:1.35;flex:none}
+#webBanner .wbText{flex:1 1 420px}
+#webBanner a{color:#8a4b00;font-weight:600}
+#webBanner .wbForce{white-space:nowrap;display:inline-flex;gap:5px;align-items:center;cursor:pointer}
+#webBanner #wbClose{border:0;background:none;font-size:20px;line-height:1;cursor:pointer;color:#6b5200;padding:0 4px}

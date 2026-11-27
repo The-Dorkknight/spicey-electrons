@@ -1,0 +1,85 @@
+{
+ "name": "Night light (light sensor + transistor)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "100k"
+    }
+   },
+   {
+    "id": "LDR1",
+    "type": "ldr",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "light": "10"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n2",
+     "n3",
+     "0"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n4",
+     "n3"
+    ],
+    "props": {
+     "color": "yellow"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": null,
+  "start": 0
+ }
+}

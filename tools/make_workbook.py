@@ -280,6 +280,8 @@ def build(out):
     f += [Paragraph("The Experimenters' Workbook", S["cover"]), Spacer(1, 4),
           Paragraph("%d experiments you can do on a screen. No soldering. No smoke. Well, a little pretend smoke." % sum(len(c[3]) for c in W.CHAPTERS),
                     S["coversub"]),
+          Paragraph("Spicey Electrons and this workbook are by <b>Matthew Armstrong</b> (GitHub: The-Dorkknight)",
+                    st("cvby", fontSize=11, textColor=colors.white, alignment=TA_CENTER, spaceBefore=10)),
           Paragraph("Made for Spicey Electrons v%s · free to use · for all ages" % __version__,
                     st("cv", fontSize=9, textColor=YELLOW, alignment=TA_CENTER, spaceBefore=8)),
           PageBreak()]
@@ -382,7 +384,7 @@ def build(out):
     f += [PageBreak(), Paragraph("Where next?", S["h1"]),
           Paragraph("You now know more about electronics than most people ever bother to learn. To go further, build your own circuits "
                     "from the parts bin, save them, and share them. Spicey Electrons is free, works offline, and lives at "
-                    "github.com/The-Dorkknight/spicey-electrons. This workbook was made %s." % datetime.date.today().isoformat(), S["body"]),
+                    "github.com/The-Dorkknight/spicey-electrons, made by Matthew Armstrong. This workbook was made %s." % datetime.date.today().isoformat(), S["body"]),
           Spacer(1, 8),
           Paragraph("Honest note: the simulator is an excellent guide, but its models are simplified. Real parts vary, real wires get hot, "
                     "and mains electricity can kill. Keep to batteries and low voltages for real-life tinkering, and ask an adult who knows.",

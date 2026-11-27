@@ -1,0 +1,65 @@
+{
+ "name": "Emitter follower (a transistor buffer)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "12"
+    }
+   },
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "amplitude": "1",
+     "frequency": "1k",
+     "offset": "4"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n2",
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.005,
+  "start": 0
+ }
+}

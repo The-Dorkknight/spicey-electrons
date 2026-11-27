@@ -1,0 +1,106 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_SQ1 n1 SQ1_am 0\nV_SQ1 SQ1_int 0 PULSE(0 5 0 1e-06 1e-06 0.000499 0.001)\nR_SQ1_in SQ1_am SQ1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 10\nvam_L1 n2 L1_am 0\nL_L1 L1_am L1_l 0.001\nR_L1_w L1_l n3 0.01\nvam_C1 n3 C1_am 0\nC_C1 C1_am 0 1e-07\n.control\nset filetype=binary\ntran 1e-06 0.001 0 1e-06\nwrite __OUT__ v(n1) v(n2) v(n3) i(vam_sq1) i(vam_r1) i(vam_l1) i(vam_c1)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3"
+  ],
+  "currents": {
+   "SQ1": [
+    "i(vam_sq1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "L1": [
+    "i(vam_l1)",
+    1.0
+   ],
+   "C1": [
+    "i(vam_c1)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "SQ1": {
+    "0": "i(vam_sq1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "L1": {
+    "0": "i(vam_l1)"
+   },
+   "C1": {
+    "0": "i(vam_c1)"
+   }
+  },
+  "duration": 0.001,
+  "start": 0.0,
+  "fmax": 15915.494309189533,
+  "steps": 1000.0000000000001,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "high": "5",
+     "low": "0",
+     "frequency": "1k",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "10"
+    }
+   },
+   {
+    "id": "L1",
+    "type": "inductor",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "value": "1m"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "100n"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

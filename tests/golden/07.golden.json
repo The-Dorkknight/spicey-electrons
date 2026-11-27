@@ -1,0 +1,130 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_SIG1 n1 SIG1_am 0\nV_SIG1 SIG1_int 0 SIN(0 20 50)\nR_SIG1_in SIG1_am SIG1_int 0.1\nvam_T1 n1 T1_am 0\nvam_T1_p1 0 T1_p1 0\nvam_T1_p2 n2 T1_p2 0\nvam_T1_p3 0 T1_p3 0\nL_T1p T1_am T1_pl 1\nR_T1_pw T1_pl T1_p1 0.1\nL_T1s T1_p2 T1_sl 0.25\nR_T1_sw T1_sl T1_p3 0.025\nK_T1 L_T1p L_T1s 0.999\nvam_D1 n2 D1_am 0\nD_D1 D1_am n3 1N4007\nvam_C1 n3 C1_am 0\nC_C1 C1_am 0 0.00047\nvam_R1 n3 R1_am 0\nR_R1 R1_am 0 470\n.model 1N4007 D(IS=7.02767n RS=0.0341512 N=1.80803 EG=1.05743 XTI=5 BV=1000 IBV=5e-08 CJO=1e-11 VJ=0.7 M=0.5 FC=0.5 TT=1e-07)\n.control\nset filetype=binary\ntran 0.0001 0.1 0 0.0001\nwrite __OUT__ v(n1) v(n2) v(n3) i(vam_sig1) i(vam_t1) i(vam_d1) i(vam_c1) i(vam_r1) i(vam_t1_p1) i(vam_t1_p2) i(vam_t1_p3)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3"
+  ],
+  "currents": {
+   "SIG1": [
+    "i(vam_sig1)",
+    -1.0
+   ],
+   "T1": [
+    "i(vam_t1)",
+    1.0
+   ],
+   "D1": [
+    "i(vam_d1)",
+    1.0
+   ],
+   "C1": [
+    "i(vam_c1)",
+    1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "SIG1": {
+    "0": "i(vam_sig1)"
+   },
+   "T1": {
+    "0": "i(vam_t1)",
+    "1": "i(vam_t1_p1)",
+    "2": "i(vam_t1_p2)",
+    "3": "i(vam_t1_p3)"
+   },
+   "D1": {
+    "0": "i(vam_d1)"
+   },
+   "C1": {
+    "0": "i(vam_c1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   }
+  },
+  "duration": 0.1,
+  "start": 0.0,
+  "fmax": 50.0,
+  "steps": 1000.0,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "amplitude": "20",
+     "frequency": "50",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "T1",
+    "type": "transformer",
+    "nodes": [
+     "n1",
+     "0",
+     "n2",
+     "0"
+    ],
+    "props": {
+     "ratio": "0.5",
+     "inductance": "1",
+     "coupling": "0.999"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "model": "1N4007"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "470u"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

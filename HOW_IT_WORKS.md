@@ -99,3 +99,9 @@ A MOSFET also gets its real pin capacitances as little capacitors (that is where
 - One `requestAnimationFrame` loop moves a playhead (`cursorF`) through the result. About 25 times a second it re-draws the board and scope at that time sample; the dots are nudged every frame.
 - Dots: each wire piece keeps a phase (px travelled). Every frame `phase += signedSpeed x dt`, so a current that changes sign makes the dots turn round. The speed comes from log10(I / 1 uA).
 - Wave zoom: the period comes from the engine's frequency count when there is one, otherwise from rising crossings of the first trace (middle level, 10% hysteresis, median gap). The run is then repeated with Show = N periods and From = end - N periods. The period is remembered so 2 -> 10 -> 50 works after zooming in.
+
+## The web version (site/)
+
+The browser page is the same `web/` folder as the downloaded app. The web build copies it to `site/dist/` and adds one script before `app.js` that answers the page's four calls (`/api/info`, `/api/simulate`, `/api/job/<id>`, `/api/cancel/<id>`) inside the browser: the netlist is built by a JavaScript port of `netlist.py`, ngspice (WebAssembly) runs in a Web Worker, and the results go through a port of the runner's post-processing. Stop ends the worker. The Python code remains the reference: golden files made from it (`tests/golden/`) are compared with the JavaScript output in the tests. Part tables are generated from `parts.py`, so there is one copy.
+
+Measured here: the browser engine matches native results (average and RMS within 0.07 %) but is roughly 7 to 35 times slower on fast circuits, and slows more than linearly with steps (10k steps 3.4 s, 30k 9 s, 80k 46 s, 150k over 4 min). That is why the yellow bar warns about RF and why very large runs are refused. Not measured on a real 7th-gen i3.

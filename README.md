@@ -19,6 +19,8 @@ fingers find out.
 
 📘 **[The whole manual and research notes as one PDF](docs/SpiceyElectrons-manual.pdf)**
 
+**Made by Matthew Armstrong** ([The-Dorkknight](https://github.com/The-Dorkknight)). If you share or build on this, please keep this credit.
+
 **Licence:** source-available under the [PolyForm Noncommercial License 1.0.0](LICENSE.md). Free
 for personal, educational and other non-commercial use; commercial use needs permission. It comes
 with **no warranty and no liability**: it's a learning tool, not a design sign-off, and the
@@ -66,6 +68,10 @@ You need **Python 3.8 or newer** (no extra Python packages) and **ngspice** (the
 - **Windows:** download the 64-bit Windows build from <https://ngspice.sourceforge.io/download.html>
   and unpack it so that `tools\Spice64\bin\ngspice_con.exe` exists inside this folder
   (or `C:\Spice64\bin\ngspice_con.exe`).
+
+### No install: the web version
+
+If your computer cannot run the download, open the web version (GitHub Pages for this repo, once enabled) in any modern browser. It runs the simulator inside your browser, on your own computer, and sends nothing anywhere. It is **slower** than the download: ordinary circuits take a few seconds, but very fast radio-frequency (RF) circuits like the FM bug are **probably very slow, or refused**. For full speed, download this repo and use the launcher for your system. The download never depends on the web version, so it works whatever happens to the web side.
 
 ## How to use it
 

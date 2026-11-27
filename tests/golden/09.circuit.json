@@ -1,0 +1,164 @@
+{
+ "name": "FM bug (one transistor radio transmitter)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "33k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n2",
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "model": "2N2222"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "100p"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "0"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "C2",
+    "type": "capacitor",
+    "nodes": [
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "value": "5p"
+    }
+   },
+   {
+    "id": "L1",
+    "type": "inductor",
+    "nodes": [
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "value": "0.2u"
+    }
+   },
+   {
+    "id": "C3",
+    "type": "capacitor",
+    "nodes": [
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "value": "10p"
+    }
+   },
+   {
+    "id": "C4",
+    "type": "capacitor",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "value": "10n"
+    }
+   },
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n5",
+     "0"
+    ],
+    "props": {
+     "amplitude": "0.2",
+     "frequency": "20k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "R4",
+    "type": "resistor",
+    "nodes": [
+     "n5",
+     "n6"
+    ],
+    "props": {
+     "value": "4.7k"
+    }
+   },
+   {
+    "id": "C5",
+    "type": "capacitor",
+    "nodes": [
+     "n6",
+     "n2"
+    ],
+    "props": {
+     "value": "100n"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.0001,
+  "start": 1e-05
+ }
+}

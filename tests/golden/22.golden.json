@@ -1,0 +1,102 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_B1 n1 B1_am 0\nV_B1 B1_int 0 PWL(0 0 1e-06 12)\nR_B1_in B1_am B1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 470\nvam_DZ1 0 DZ1_am 0\nD_DZ1 DZ1_am n2 DZ5_1\nvam_R2 n2 R2_am 0\nR_R2 R2_am 0 1000\n.model DZ5_1 D(IS=1e-14 N=1 RS=2 BV=5.1 IBV=5m CJO=50p)\n.control\nset filetype=binary\ntran 1e-05 0.01 0 1e-05\nwrite __OUT__ v(n1) v(n2) i(vam_b1) i(vam_r1) i(vam_dz1) i(vam_r2)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2"
+  ],
+  "currents": {
+   "B1": [
+    "i(vam_b1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "DZ1": [
+    "i(vam_dz1)",
+    1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "B1": {
+    "0": "i(vam_b1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "DZ1": {
+    "0": "i(vam_dz1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   }
+  },
+  "duration": 0.01,
+  "start": 0.0,
+  "fmax": 0.0,
+  "steps": 999.9999999999999,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "12"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "DZ1",
+    "type": "zener",
+    "nodes": [
+     "0",
+     "n2"
+    ],
+    "props": {
+     "vz": "5.1"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

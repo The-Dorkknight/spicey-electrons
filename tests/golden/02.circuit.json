@@ -1,0 +1,85 @@
+{
+ "name": "Transistor switch",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "color": "green"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n4",
+     "n3",
+     "0"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n5",
+     "n4"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "S1",
+    "type": "switch",
+    "nodes": [
+     "n1",
+     "n5"
+    ],
+    "props": {
+     "closed": true
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": null,
+  "start": 0
+ }
+}

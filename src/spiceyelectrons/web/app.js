@@ -1144,6 +1144,16 @@ function zoomToggle(q) {
   if (q.zoom) S.probes.forEach((o) => { if (o !== q && probeTrace(o) && probeTrace(o).unit === probeTrace(q).unit) o.zoom = false; });
   save(); drawScope();
 }
+function smoothHz(d) {                              // frequency is measured once per wave, so it looks steppy: average neighbours
+  const out = new Array(d.length), R = Math.max(2, Math.round(d.length / 80));
+  for (let i = 0; i < d.length; i++) {
+    if (d[i] === null) { out[i] = null; continue; }
+    let s = 0, n = 0;
+    for (let k = Math.max(0, i - R); k <= Math.min(d.length - 1, i + R); k++) if (d[k] !== null && isFinite(d[k])) { s += d[k]; n++; }
+    out[i] = n ? s / n : d[i];
+  }
+  return out;
+}
 function drawScope() {
   const dpr = window.devicePixelRatio || 1;
   const w = cv.clientWidth, h = cv.clientHeight;
@@ -1207,11 +1217,12 @@ function drawScope() {
   axis(rv, "L", "V", "#c8d4ea");
   axis(rh || ri, "R", rh ? "Hz" : "A", "#9fe2ff");
   cx.fillStyle = "#8091b3"; cx.textAlign = "center";
-  for (let i = 0; i <= 10; i += 2) cx.fillText(fmt(t0 + (T * i) / 10, "s"), padL + (pw * i) / 10, h - 6);
+  for (let i = 0; i <= 10; i += 2) cx.fillText(T < Math.abs(t0) * 0.01 ? (i ? "+" : "") + fmt((T * i) / 10, "s") + (i ? "" : " @ " + fmt(t0, "s")) : fmt(t0 + (T * i) / 10, "s"), padL + (pw * i) / 10, h - 6);   // tiny window far from 0: label the offset so every tick is different
   tinySet.clear(); tinyHits = [];
   cx.save(); cx.beginPath(); cx.rect(padL, padT, pw, ph); cx.clip();          // a zoomed-in trace must not spill over the axes
   for (const { q, t: tr } of traces) {
     const r = tr.unit === "V" ? rv : tr.unit === "Hz" ? rh : ri;
+    cx.globalAlpha = traces.some((o) => o.q.zoom && o.t.unit === tr.unit) && !q.zoom ? 0.22 : 1;   // zoomed on another trace: this one is mostly off the scale
     const Y = (v) => padT + ph - (ph * (v - r[0])) / (r[1] - r[0]);
     // A trace far smaller than the scale would just look like a flat line at 0: draw it as a fat dashed line with its size written on it.
     if (tr.unit !== "Hz") {
@@ -1246,10 +1257,16 @@ function drawScope() {
     }
     cx.strokeStyle = q.color; cx.lineWidth = tr.env ? 1.2 : 2.2; cx.setLineDash(tr.unit === "A" ? [7, 3] : []);
     cx.beginPath();
-    let pen = false;
-    tr.data.forEach((v, i) => { if (v === null) { pen = false; return; } if (pen) cx.lineTo(X(i), Y(v)); else cx.moveTo(X(i), Y(v)); pen = true; });
+    if (tr.env) {                                   // carrier too fast to draw: outline the band (the raw samples would just be random streaks)
+      tr.env[1].forEach((v, i) => (i ? cx.lineTo(X(i), Y(v)) : cx.moveTo(X(i), Y(v))));
+      tr.env[0].forEach((v, i) => (i ? cx.lineTo(X(i), Y(v)) : cx.moveTo(X(i), Y(v))));
+    } else {
+      let pen = false;
+      const dd = tr.unit === "Hz" ? smoothHz(tr.data) : tr.data;
+      dd.forEach((v, i) => { if (v === null) { pen = false; return; } if (pen) cx.lineTo(X(i), Y(v)); else cx.moveTo(X(i), Y(v)); pen = true; });
+    }
     cx.stroke();
-    cx.setLineDash([]);
+    cx.setLineDash([]); cx.globalAlpha = 1;
   }
   cx.restore();
   const ci = Math.min(cursor, t.length - 1), xc = X(ci);
@@ -1273,12 +1290,12 @@ function drawScope() {
     legend.appendChild(chip);
   });
   const tt = document.createElement("span");
-  tt.className = "chip";
+  tt.className = "chip time";
   tt.style.paddingLeft = "9px";
   tt.textContent = `⏱ ${fmt(t[ci], "s")}${stale ? " · out of date - press ▶ Run" : ""}`;
   legend.appendChild(tt);
   const zb = $("#zoomBtn"), zoomed = S.probes.find((q) => q.zoom), tq = [...tinySet][0];
-  zb.classList.toggle("hidden", !(zoomed || tq));
+  zb.classList.toggle("ghost", !(zoomed || tq));
   if (zoomed) { zb.textContent = "↩ Back to shared scale"; zb.onclick = () => zoomToggle(zoomed); }
   else if (tq) { zb.textContent = "🔍 Enlarge small signal " + tq.letter; zb.onclick = () => zoomToggle(tq); }
 }
@@ -1767,7 +1784,7 @@ $("#loadFile").onchange = async (e) => {
   try {
     const info = await (await fetch("/api/info")).json();
     $("#ver").textContent = `v${info.version}`;
-    $("#footer").textContent = `${info.app} v${info.version} · Built ${info.build}`;
+    $("#footer").textContent = `${info.app} v${info.version} · Built ${info.build} · Made by Matthew Armstrong (The-Dorkknight)`;
     document.title = `${info.app} ${info.version} (Built ${info.build})`;
     if (!info.ngspice) showMessages([{ level: "error", text: "The simulation engine (ngspice) isn't installed yet, so ▶ Run won't work. Close this and run the launcher again - it offers to install it. (See README: 'Installing ngspice'.)" }]);
   } catch (_) {}

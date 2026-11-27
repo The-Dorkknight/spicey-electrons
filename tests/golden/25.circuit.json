@@ -1,0 +1,112 @@
+{
+ "name": "Relay with a flyback diode (the click and the spike)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "K1",
+    "type": "relay",
+    "nodes": [
+     "n1",
+     "n2",
+     "n1",
+     "n3"
+    ],
+    "props": {
+     "coil": "9"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n2",
+     "n1"
+    ],
+    "props": {
+     "model": "1N4148"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n4",
+     "n2",
+     "0"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n5",
+     "n4"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n5",
+     "0"
+    ],
+    "props": {
+     "high": "5",
+     "low": "0",
+     "frequency": "20",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "n6"
+    ],
+    "props": {
+     "value": "470"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n6",
+     "0"
+    ],
+    "props": {
+     "color": "green"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.1,
+  "start": 0
+ }
+}

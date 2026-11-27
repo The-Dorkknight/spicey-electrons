@@ -1,0 +1,159 @@
+{
+ "name": "Class D amplifier (a switch pretending to be a speaker driver)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "high": "2",
+     "low": "-2",
+     "frequency": "100k",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "U1",
+    "type": "opamp",
+    "nodes": [
+     "n2",
+     "0",
+     "n3"
+    ],
+    "props": {
+     "rails": "5"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "value": "1n"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "value": "100k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND2",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n4",
+     "0"
+    ],
+    "props": {
+     "amplitude": "0.3",
+     "frequency": "5k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "GND3",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "U2",
+    "type": "opamp",
+    "nodes": [
+     "n3",
+     "n4",
+     "n5"
+    ],
+    "props": {
+     "rails": "5"
+    }
+   },
+   {
+    "id": "L1",
+    "type": "inductor",
+    "nodes": [
+     "n5",
+     "n6"
+    ],
+    "props": {
+     "value": "1m"
+    }
+   },
+   {
+    "id": "C2",
+    "type": "capacitor",
+    "nodes": [
+     "n6",
+     "0"
+    ],
+    "props": {
+     "value": "100n"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n6",
+     "0"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "GND4",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.001,
+  "start": 0.001
+ }
+}

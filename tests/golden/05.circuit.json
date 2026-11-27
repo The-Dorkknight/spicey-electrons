@@ -1,0 +1,64 @@
+{
+ "name": "Rectifier (AC to DC)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "amplitude": "10",
+     "frequency": "50",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "model": "1N4007"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "470u"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": null,
+  "start": 0
+ }
+}

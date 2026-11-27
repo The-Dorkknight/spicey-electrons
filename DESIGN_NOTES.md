@@ -185,3 +185,7 @@ the 2-minute limit cover the unusual cases.
 - **Class D** is a PWM comparator plus a low-pass filter; it is a teaching model, not an audio-grade design.
 - **Workbook:** built from `tools/workbook_content.py` plus screenshots from `tools/shoot_examples.py`, so the pictures always match the app. No jargon without a glossary entry.
 - **Deferred, with reasons:** *live mode* needs ngspice as a shared library running a step at a time (a real piece of work, and untestable here on a slow machine); *Bode sweep* needs an AC-analysis path through the netlist, results format and a new plot; *SoloTrace export* needs the SoloTrace file format agreed; *WebAssembly engine* means building ngspice for the browser, which conflicts with the "tiny download, runs on a 7th-gen i3" goal until measured.
+
+## Why the downloaded app is the fallback, not the web version
+
+Design rule: `src/` is the shared library and the only thing the download needs. `site/` depends on `src/`; `src/` never depends on `site/`. If the web side breaks, is deleted or changes, the download is unaffected. Tests enforce it (git shows no change under `src/` after a web build; the original files never mention `site/`).

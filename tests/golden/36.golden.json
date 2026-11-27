@@ -1,0 +1,104 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_SIG1 n1 SIG1_am 0\nV_SIG1 SIG1_int 0 SIN(0 5 1000)\nR_SIG1_in SIG1_am SIG1_int 0.1\nvam_R1 n1 R1_am 0\nR_R1 R1_am n2 1000\nvam_D1 n2 D1_am 0\nD_D1 D1_am 0 1N4148\nvam_D2 0 D2_am 0\nD_D2 D2_am n2 1N4148\n.model 1N4148 D(IS=4.352n N=1.906 BV=110 IBV=0.0001 RS=0.6458 CJO=7.048p VJ=0.869 M=0.03 FC=0.5 TT=3.48n)\n.control\nset filetype=binary\ntran 5e-06 0.005 0 5e-06\nwrite __OUT__ v(n1) v(n2) i(vam_sig1) i(vam_r1) i(vam_d1) i(vam_d2)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2"
+  ],
+  "currents": {
+   "SIG1": [
+    "i(vam_sig1)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "D1": [
+    "i(vam_d1)",
+    1.0
+   ],
+   "D2": [
+    "i(vam_d2)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "SIG1": {
+    "0": "i(vam_sig1)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "D1": {
+    "0": "i(vam_d1)"
+   },
+   "D2": {
+    "0": "i(vam_d2)"
+   }
+  },
+  "duration": 0.005,
+  "start": 0.0,
+  "fmax": 1000.0,
+  "steps": 999.9999999999999,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "amplitude": "5",
+     "frequency": "1k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "model": "1N4148"
+    }
+   },
+   {
+    "id": "D2",
+    "type": "diode",
+    "nodes": [
+     "0",
+     "n2"
+    ],
+    "props": {
+     "model": "1N4148"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

@@ -1,0 +1,38 @@
+# Publishes the WEB VERSION to GitHub Pages. The original app in src/ is not touched by this.
+name: Web version (GitHub Pages)
+on:
+  push:
+    branches: [main]
+    paths: ["src/**", "site/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - name: Fetch the simulator engine (MIT, not stored in the repo)
+        run: cd site && npm install --no-save eecircuit-engine@1.9.0
+      - name: Check the JS port still matches the Python app
+        run: pip install pytest && python -m pytest tests/test_site_golden.py -q
+      - name: Build
+        run: python site/build_site.py
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: site/dist }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: "${{ steps.d.outputs.page_url }}" }
+    steps:
+      - id: d
+        uses: actions/deploy-pages@v4

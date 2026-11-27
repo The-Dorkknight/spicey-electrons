@@ -1,0 +1,172 @@
+{
+ "netlist": "* Spicey Electrons circuit at 20 C\n.options rshunt=1e12 reltol=1e-3 method=gear\n.temp 20\nvam_SQ1 n1 SQ1_am 0\nV_SQ1 SQ1_int 0 PULSE(0 5 0 2e-06 2e-06 0.000998 0.002)\nR_SQ1_in SQ1_am SQ1_int 0.1\nvam_SQ2 n2 SQ2_am 0\nV_SQ2 SQ2_int 0 PULSE(0 5 0 1e-06 1e-06 0.000499 0.001)\nR_SQ2_in SQ2_am SQ2_int 0.1\nvam_G1 n3 G1_am 0\nR_G1_i0 n1 0 10Meg\nR_G1_i1 n2 0 10Meg\nB_G1 G1_x 0 V = 5*((0.5*(1+tanh((v(n1)-2.5)/0.2)))+(0.5*(1+tanh((v(n2)-2.5)/0.2)))-2*(0.5*(1+tanh((v(n1)-2.5)/0.2)))*(0.5*(1+tanh((v(n2)-2.5)/0.2))))\nR_G1_d G1_x G1_y 1000\nC_G1_d G1_y 0 10p\nB_G1_buf G1_o 0 V = v(G1_y)\nR_G1_out G1_o G1_am 50\n.ic v(G1_y)=0\nvam_G2 n4 G2_am 0\nR_G2_i0 n1 0 10Meg\nR_G2_i1 n2 0 10Meg\nB_G2 G2_x 0 V = 5*(0.5*(1+tanh((v(n1)-2.5)/0.2)))*(0.5*(1+tanh((v(n2)-2.5)/0.2)))\nR_G2_d G2_x G2_y 1030\nC_G2_d G2_y 0 10p\nB_G2_buf G2_o 0 V = v(G2_y)\nR_G2_out G2_o G2_am 50\n.ic v(G2_y)=5\nvam_R1 n3 R1_am 0\nR_R1 R1_am 0 10000\nvam_R2 n4 R2_am 0\nR_R2 R2_am 0 10000\n.control\nset filetype=binary\ntran 1e-05 0.01 0 1e-05\nwrite __OUT__ v(n1) v(n2) v(n3) v(n4) i(vam_sq1) i(vam_sq2) i(vam_g1) i(vam_g2) i(vam_r1) i(vam_r2)\nquit\n.endc\n.end\n",
+ "meta": {
+  "nodes": [
+   "n1",
+   "n2",
+   "n3",
+   "n4"
+  ],
+  "currents": {
+   "SQ1": [
+    "i(vam_sq1)",
+    -1.0
+   ],
+   "SQ2": [
+    "i(vam_sq2)",
+    -1.0
+   ],
+   "G1": [
+    "i(vam_g1)",
+    -1.0
+   ],
+   "G2": [
+    "i(vam_g2)",
+    -1.0
+   ],
+   "R1": [
+    "i(vam_r1)",
+    1.0
+   ],
+   "R2": [
+    "i(vam_r2)",
+    1.0
+   ]
+  },
+  "pinvecs": {
+   "SQ1": {
+    "0": "i(vam_sq1)"
+   },
+   "SQ2": {
+    "0": "i(vam_sq2)"
+   },
+   "G1": {
+    "2": "i(vam_g1)"
+   },
+   "G2": {
+    "2": "i(vam_g2)"
+   },
+   "R1": {
+    "0": "i(vam_r1)"
+   },
+   "R2": {
+    "0": "i(vam_r2)"
+   }
+  },
+  "duration": 0.01,
+  "start": 0.0,
+  "fmax": 1000.0,
+  "steps": 999.9999999999999,
+  "temp": 20.0,
+  "notes": [],
+  "parts": [
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "high": "5",
+     "low": "0",
+     "frequency": "500",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "SQ2",
+    "type": "square",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "high": "5",
+     "low": "0",
+     "frequency": "1k",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "G1",
+    "type": "xor",
+    "nodes": [
+     "n1",
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "G2",
+    "type": "and",
+    "nodes": [
+     "n1",
+     "n2",
+     "n4"
+    ],
+    "props": {
+     "level": "5"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n4",
+     "0"
+    ],
+    "props": {
+     "value": "10k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND2",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND3",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND4",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ]
+ },
+ "error": null
+}

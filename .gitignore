@@ -15,3 +15,5 @@ Thumbs.db
 *.keystore
 tools/Spice64/*
 !tools/Spice64/README.txt
+site/dist/
+site/node_modules/

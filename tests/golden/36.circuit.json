@@ -1,0 +1,64 @@
+{
+ "name": "Diode clipper (a wave with its tops sliced off)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "amplitude": "5",
+     "frequency": "1k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "model": "1N4148"
+    }
+   },
+   {
+    "id": "D2",
+    "type": "diode",
+    "nodes": [
+     "0",
+     "n2"
+    ],
+    "props": {
+     "model": "1N4148"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.005,
+  "start": 0
+ }
+}

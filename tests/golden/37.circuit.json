@@ -1,0 +1,54 @@
+{
+ "name": "RC high-pass (it only passes the changes)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "SQ1",
+    "type": "square",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "high": "5",
+     "low": "0",
+     "frequency": "1k",
+     "duty": "50"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "100n"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n2",
+     "0"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.005,
+  "start": 0
+ }
+}

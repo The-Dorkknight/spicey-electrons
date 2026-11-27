@@ -5,8 +5,12 @@
 ngspice runs in its own process, so if it crashes or hangs only that run is lost:
 the app stays up, shows a heartbeat while it works, and kills it at the time limit.
 """
+import collections
+import copy
+import hashlib
 import math
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -306,6 +310,15 @@ def _proc_stats(pid):
         return None
 
 
+# Last few finished runs, keyed by the exact netlist: running the same circuit again (Run pressed twice, undo/redo,
+# changing a value and changing it back) is then instant instead of re-running ngspice.
+CACHE = collections.OrderedDict()
+CACHE_MAX = 6
+# ngspice sometimes prints that it has given up but then sits there for the whole time limit (a floating pin, two
+# batteries across each other). When the log says so we stop after a short grace period instead of waiting.
+FATAL = re.compile(r"run simulation\(s\) aborted|timestep too small|doAnalyses: .*(?:aborted|failed)", re.I)
+
+
 def simulate(circuit, job=None):
     """Run one simulation. Returns a dict (always - errors are returned, not raised)."""
     t_start = time.time()
@@ -313,6 +326,14 @@ def simulate(circuit, job=None):
         net, meta = build(circuit)
     except CircuitError as e:
         return {"ok": False, "error": str(e), "part": e.part}
+    ckey = hashlib.sha1((net + "|" + str(circuit.get("time_limit", ""))).encode()).hexdigest()
+    hit = CACHE.get(ckey)
+    if hit is not None and not os.environ.get("SE_TEST_CRASH"):
+        CACHE.move_to_end(ckey)
+        res = copy.deepcopy(hit)
+        res["seconds"] = round(time.time() - t_start, 3)
+        res["cached"] = True
+        return res
     exe = find_ngspice()
     if not exe:
         return {"ok": False, "error": "I can't find ngspice (the simulation engine). Run the launcher again and "
@@ -327,6 +348,9 @@ def simulate(circuit, job=None):
     cmd = [exe, "-b", cir]
     if crash == "hang":
         cmd = [sys.executable, "-c", "import time; time.sleep(3600)"]
+    elif crash == "stuck":      # says it gave up, then sits there (like ngspice with a floating pin)
+        cmd = [sys.executable, "-u", "-c", "import time; print('Error: Transient op failed, timestep too small'); "
+                                           "print('run simulation(s) aborted'); time.sleep(3600)"]
     elif crash == "crash":
         cmd = [sys.executable, "-c", "import os; os._exit(139)"]
     try:
@@ -337,7 +361,14 @@ def simulate(circuit, job=None):
     if job is not None:
         job["proc"] = proc
     log_chunks = []
-    reader = threading.Thread(target=lambda: log_chunks.append(proc.stdout.read()), daemon=True)
+    fatal = {"at": None}
+
+    def read_log():
+        for line in iter(proc.stdout.readline, b""):
+            log_chunks.append(line)
+            if fatal["at"] is None and FATAL.search(line.decode("utf-8", "replace")):
+                fatal["at"] = time.time()
+    reader = threading.Thread(target=read_log, daemon=True)
     reader.start()
     limit = float(circuit.get("time_limit", TIME_LIMIT))
 
@@ -358,6 +389,10 @@ def simulate(circuit, job=None):
             if job.get("cancel"):
                 stop()
                 return {"ok": False, "error": "Stopped.", "netlist": net}
+        if fatal["at"] and time.time() - fatal["at"] > 1.0:       # it said it gave up; do not wait for the limit
+            stop()
+            log = b"".join(log_chunks).decode("utf-8", "replace")
+            return {"ok": False, "error": friendly_error(log), "details": log[-3000:], "netlist": net}
         if el > limit:
             stop()
             return {"ok": False, "netlist": net,
@@ -365,7 +400,7 @@ def simulate(circuit, job=None):
                              "on the 'Show' menu, or a slower signal."}
         time.sleep(0.1)
     stop()
-    log = (log_chunks[0] if log_chunks else b"").decode("utf-8", "replace")
+    log = b"".join(log_chunks).decode("utf-8", "replace")
     if proc.returncode != 0 or not os.path.isfile(out):
         msg = friendly_error(log) if log.strip() else "The simulator stopped unexpectedly (it may have crashed)."
         return {"ok": False, "error": msg, "details": log[-3000:], "netlist": net}
@@ -441,6 +476,9 @@ def simulate(circuit, job=None):
         os.rmdir(tmp)
     except OSError:
         pass
+    CACHE[ckey] = copy.deepcopy(res)
+    while len(CACHE) > CACHE_MAX:
+        CACHE.popitem(last=False)
     return res
 
 

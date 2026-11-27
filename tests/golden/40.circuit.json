@@ -1,0 +1,141 @@
+{
+ "name": "Astable multivibrator (see its waveforms)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n2"
+    ],
+    "props": {
+     "value": "330"
+    }
+   },
+   {
+    "id": "LED1",
+    "type": "led",
+    "nodes": [
+     "n2",
+     "n3"
+    ],
+    "props": {
+     "color": "red"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n4",
+     "n3",
+     "0"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "value": "47k"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n3",
+     "n5"
+    ],
+    "props": {
+     "value": "10u"
+    }
+   },
+   {
+    "id": "Q2",
+    "type": "npn",
+    "nodes": [
+     "n5",
+     "n6",
+     "0"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n7"
+    ],
+    "props": {
+     "value": "330"
+    }
+   },
+   {
+    "id": "LED2",
+    "type": "led",
+    "nodes": [
+     "n7",
+     "n6"
+    ],
+    "props": {
+     "color": "green"
+    }
+   },
+   {
+    "id": "R4",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n5"
+    ],
+    "props": {
+     "value": "56k"
+    }
+   },
+   {
+    "id": "C2",
+    "type": "capacitor",
+    "nodes": [
+     "n4",
+     "n6"
+    ],
+    "props": {
+     "value": "10u"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 5,
+  "start": 0
+ }
+}

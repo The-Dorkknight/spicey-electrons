@@ -1,0 +1,159 @@
+{
+ "name": "Class AB amplifier (two diodes fix the glitch)",
+ "circuit": {
+  "parts": [
+   {
+    "id": "B1",
+    "type": "battery",
+    "nodes": [
+     "n1",
+     "0"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "B2",
+    "type": "battery",
+    "nodes": [
+     "0",
+     "n2"
+    ],
+    "props": {
+     "voltage": "9"
+    }
+   },
+   {
+    "id": "SIG1",
+    "type": "sine",
+    "nodes": [
+     "n3",
+     "0"
+    ],
+    "props": {
+     "amplitude": "3",
+     "frequency": "1k",
+     "offset": "0"
+    }
+   },
+   {
+    "id": "C1",
+    "type": "capacitor",
+    "nodes": [
+     "n3",
+     "n4"
+    ],
+    "props": {
+     "value": "10u"
+    }
+   },
+   {
+    "id": "R1",
+    "type": "resistor",
+    "nodes": [
+     "n1",
+     "n4"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "D1",
+    "type": "diode",
+    "nodes": [
+     "n4",
+     "n5"
+    ],
+    "props": {
+     "model": "1N4148"
+    }
+   },
+   {
+    "id": "D2",
+    "type": "diode",
+    "nodes": [
+     "n5",
+     "n6"
+    ],
+    "props": {
+     "model": "1N4148"
+    }
+   },
+   {
+    "id": "R2",
+    "type": "resistor",
+    "nodes": [
+     "n6",
+     "n2"
+    ],
+    "props": {
+     "value": "1k"
+    }
+   },
+   {
+    "id": "Q1",
+    "type": "npn",
+    "nodes": [
+     "n4",
+     "n1",
+     "n7"
+    ],
+    "props": {
+     "model": "2N3904"
+    }
+   },
+   {
+    "id": "Q2",
+    "type": "pnp",
+    "nodes": [
+     "n6",
+     "n2",
+     "n7"
+    ],
+    "props": {
+     "model": "2N3906"
+    }
+   },
+   {
+    "id": "R3",
+    "type": "resistor",
+    "nodes": [
+     "n7",
+     "0"
+    ],
+    "props": {
+     "value": "100"
+    }
+   },
+   {
+    "id": "GND1",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND2",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   },
+   {
+    "id": "GND3",
+    "type": "ground",
+    "nodes": [
+     "0"
+    ],
+    "props": {}
+   }
+  ],
+  "temp": 20,
+  "duration": 0.005,
+  "start": 0
+ }
+}
